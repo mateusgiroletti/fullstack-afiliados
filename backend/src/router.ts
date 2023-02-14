@@ -1,9 +1,10 @@
 import { Router } from "express";
+import { TransactionFileController } from "./app/controllers/TransactionFileController";
 
 const routes = Router();
 
-routes.post("/upload", (req, res) => {
-    res.send("ok");
-});
+const uploadTransactionFile = new TransactionFileController();
+
+routes.post("/upload", uploadTransactionFile.handle);
 
 export default routes;
