@@ -7,7 +7,7 @@ import { transformDataToObject } from "../utils/tranformDatas";
 export class TransactionFileController {
     async handle(req: Request, res: Response) {
         try {
-           
+
             const fileLocation = req?.file?.path;
 
             if (!fileLocation) {
@@ -32,7 +32,7 @@ export class TransactionFileController {
                 data: transactions
             });
 
-            return res.json(transactions);
+            return res.status(201).json({ "msg": "Transactions inserted successfully" });
         } catch (error) {
             return res.status(500).json({ "msg": error });
         }
