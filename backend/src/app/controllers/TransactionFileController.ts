@@ -6,12 +6,20 @@ import { transformDataToObject } from "../utils/tranformDatas";
 
 export class TransactionFileController {
     async handle(req: Request, res: Response) {
+        try {
+           
+            const fileLocation = req?.file?.path;
 
-        const fileLocation = req?.file?.path;
+            if (!fileLocation) {
+                return res.status(400).json({ "msg": "File is required!" });
+            }
 
-        if (fileLocation) {
             //Get file content
             const data = fs.readFileSync(fileLocation, "utf8");
+
+            if (!data) {
+                return res.status(400).json({ "msg": "File formatting is not appropriate!" });
+            }
 
             //Transform to array and remove empty values
             const dataTransform = data.split("\n").filter((entry) => entry.trim() != "");
@@ -20,16 +28,14 @@ export class TransactionFileController {
             const transactions = transformDataToObject(dataTransform);
 
             //Insert in database
-            const newTransactions = await prismaClient.transaction.createMany({
+            await prismaClient.transaction.createMany({
                 data: transactions
             });
+
+            return res.json(transactions);
+        } catch (error) {
+            return res.status(500).json({ "msg": error });
         }
 
-
-
-
-
-
-        return res.json({ "msg": "ok" });
     }
 }
