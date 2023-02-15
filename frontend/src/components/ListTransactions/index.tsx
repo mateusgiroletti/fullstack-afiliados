@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { TransactionContext } from "../../contexts/TransactionContext";
 
 import "./index.css";
 
@@ -8,8 +9,8 @@ interface transactionsProps {
 }
 
 export function ListTransactions() {
-
-    const [transactions, setTransactions] = useState([]);
+    const [transactions, setTransactions] = useState<transactionsProps[]>([]);
+    const { fetchTransaction, setFetchTransaction } = useContext(TransactionContext);
 
     useEffect(() => {
         fetch("http://localhost:3000/transactions")
@@ -17,7 +18,7 @@ export function ListTransactions() {
             .then(items => {
                 setTransactions(items);
             });
-    }, []);
+    }, [fetchTransaction]);
 
     return (
         <table className="table-transactions" >
@@ -30,7 +31,7 @@ export function ListTransactions() {
             <tbody>
                 {
                     transactions.length ?
-                        transactions.map((item: transactionsProps, i) => {
+                        transactions.map((item, i) => {
                             return (
                                 <tr key={i}>
                                     <td>{item.name_seller}</td>
