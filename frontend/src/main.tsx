@@ -11,8 +11,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <TransactionProvider>
             <div className="container">
-                <UploadFile />
-                <ListTransactions />
+                <div className="content">
+                    <UploadFile />
+                    <ListTransactions />
+                </div>
             </div>
         </TransactionProvider>
     </React.StrictMode>,
