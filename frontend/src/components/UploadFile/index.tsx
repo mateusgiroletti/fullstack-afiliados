@@ -3,6 +3,8 @@ import { TransactionContext } from "../../contexts/TransactionContext";
 
 import "./index.css";
 
+import iconArrowUp from "../../assets/file-arrow-up.svg";
+
 export function UploadFile() {
     const [fileToUpload, setFileToUpload] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
@@ -24,8 +26,8 @@ export function UploadFile() {
             {
                 method: "POST",
                 body: formData,
-
-            })
+            }
+        )
             .then((response) => response.json())
             .then((result) => {
                 console.log("Success:", result);
@@ -46,8 +48,21 @@ export function UploadFile() {
                 !loading ?
                     (
                         <form className="form-upload" onSubmit={handleSubmit}>
-                            <label htmlFor="file">Insira o arquivo de vendas aqui:</label>
-                            <input type="file" name="file" id="file" onChange={handleFileInputChange} required />
+
+                            <label htmlFor="file">
+                                <img src={iconArrowUp} alt="Upload File" />
+                                Insira o arquivo de vendas aqui!
+                                <input type="file" name="file" id="file" onChange={handleFileInputChange} required />
+                            </label>
+
+                            {
+                                fileToUpload ?
+                                    (
+                                        <div className="response" >
+                                            <span>Arquivo selecionado: {fileToUpload.name}</span>
+                                        </div>
+                                    ) : ("")
+                            }
 
                             <button type="submit">Enviar</button>
                         </form>
