@@ -1,14 +1,19 @@
 import { Request, Response } from "express";
 import fs from "node:fs";
-import prismaClient from "./database/prismaClient";
+import prismaClient from "../database/prismaClient";
 
 import { transformDataToObject } from "../utils/tranformDatas";
 
 export class TransactionFileController {
     async handle(req: Request, res: Response) {
         try {
+            const file = req?.file;
+            const fileLocation = file?.path;
+            const fileExtension = file?.originalname.split(".")[1];
 
-            const fileLocation = req?.file?.path;
+            if (fileExtension != "txt") {
+                return res.status(415).json({ "msg": "File type not accept" });
+            }
 
             if (!fileLocation) {
                 return res.status(400).json({ "msg": "File is required!" });
