@@ -13,7 +13,7 @@ interface transactionsProps {
 export function ListTransactions() {
     const [transactions, setTransactions] = useState<transactionsProps[]>([]);
     const [isTransationsLoading, setIsTransationsLoading] = useState<boolean>(true);
-    const { fetchTransaction, setFetchTransaction } = useContext(TransactionContext);
+    const { isFetchTransaction } = useContext(TransactionContext);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,7 +31,7 @@ export function ListTransactions() {
             });
 
         setIsTransationsLoading(false);
-    }, [fetchTransaction]);
+    }, [isFetchTransaction]);
 
     function formatMoneyToReal(value: string) {
         let newValue = value.replace(/\D/g, "");
