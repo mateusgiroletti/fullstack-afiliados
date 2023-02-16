@@ -25,3 +25,13 @@
     background-color: #0984e3;
     color: white;
 }
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

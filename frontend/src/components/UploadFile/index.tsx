@@ -1,9 +1,12 @@
 import { FormEvent, useContext, useState } from "react";
 import { TransactionContext } from "../../contexts/TransactionContext";
 
+import { showNotification } from "../../utils/showNotifications";
+
 import "./index.css";
 
 import iconArrowUp from "../../assets/file-arrow-up.svg";
+import { Loading } from "../Loading";
 
 export function UploadFile() {
     const [fileToUpload, setFileToUpload] = useState<string>("");
@@ -28,22 +31,27 @@ export function UploadFile() {
                 body: formData,
             }
         )
-            .then((response) => response.json())
-            .then((result) => {
-                console.log("Success:", result);
+            .then((response) => {
+                if ((response.status >= 300)) {
+                    throw new Error;
+                }
+                response.json();
+            })
+            .then(() => {
+                showNotification("Dados Inseridos com sucesso!", "success");
             })
             .finally(() => {
                 setLoading(false);
                 setFetchTransaction(true);
+                setFileToUpload("");
             })
-            .catch((error) => {
-                console.error("Error:", error);
+            .catch(() => {
+                showNotification("Erro ao enviar arquivo!", "error");
             });
-
     }
 
     return (
-        <div>
+        <>
             {
                 !loading ?
                     (
@@ -52,7 +60,7 @@ export function UploadFile() {
                             <label htmlFor="file">
                                 <img src={iconArrowUp} alt="Upload File" />
                                 Insira o arquivo de vendas aqui!
-                                <input type="file" name="file" id="file" onChange={handleFileInputChange} required />
+                                <input type="file" name="file" id="file" onChange={handleFileInputChange} /* accept=".txt" */ />
                             </label>
 
                             {
@@ -68,9 +76,9 @@ export function UploadFile() {
                         </form>
                     ) :
                     (
-                        <h1>loading...</h1>
+                        <Loading />
                     )
             }
-        </div>
+        </>
     );
 }

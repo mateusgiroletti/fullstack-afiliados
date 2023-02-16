@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { ToastContainer } from "react-toastify";
 import { ListTransactions } from "./components/ListTransactions";
+import "react-toastify/dist/ReactToastify.css";
 
 import { UploadFile } from "./components/UploadFile";
 import TransactionProvider from "./contexts/TransactionContext";
@@ -17,5 +19,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
                 </div>
             </div>
         </TransactionProvider>
+        <ToastContainer />
     </React.StrictMode>,
 );
