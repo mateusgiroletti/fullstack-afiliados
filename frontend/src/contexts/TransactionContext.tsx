@@ -1,13 +1,26 @@
-import { createContext, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
 
-export const TransactionContext = createContext({});
+type TransactionContextProps = {
+    children: ReactNode
+}
 
+type TransactionContextType = {
+    isFetchTransaction: boolean;
+    setIsFetchTransaction: (newState: boolean) => void;
+}
 
-function TransactionProvider({ children }: any) {
-    const [fetchTransaction, setFetchTransaction] = useState(false);
+const initialValue = {
+    isFetchTransaction: false,
+    setIsFetchTransaction: () => { },
+};
+
+export const TransactionContext = createContext<TransactionContextType>(initialValue);
+
+function TransactionProvider({ children }: TransactionContextProps) {
+    const [isFetchTransaction, setIsFetchTransaction] = useState(initialValue.isFetchTransaction);
 
     return (
-        <TransactionContext.Provider value={{ fetchTransaction, setFetchTransaction }} >
+        <TransactionContext.Provider value={{ isFetchTransaction, setIsFetchTransaction }} >
             {children}
         </TransactionContext.Provider>
     );
