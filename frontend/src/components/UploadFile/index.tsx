@@ -11,7 +11,7 @@ import { Loading } from "../Loading";
 export function UploadFile() {
     const [fileToUpload, setFileToUpload] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
-    const { fetchTransaction, setFetchTransaction } = useContext(TransactionContext);
+    const { setIsFetchTransaction } = useContext(TransactionContext);
 
     function handleFileInputChange(event: FormEvent) {
         setFileToUpload(event.target.files[0]);
@@ -19,6 +19,11 @@ export function UploadFile() {
 
     function handleSubmit(event: FormEvent) {
         event.preventDefault();
+
+        if (!fileToUpload) {
+            return showNotification("Favor inserir arquivo antes de enviar!", "error");
+        }
+
         const formData = new FormData();
         formData.append("file", fileToUpload);
 
@@ -33,20 +38,31 @@ export function UploadFile() {
         )
             .then((response) => {
                 if ((response.status >= 300)) {
-                    throw new Error;
+                    throw response.status;
                 }
                 response.json();
             })
             .then(() => {
-                showNotification("Dados Inseridos com sucesso!", "success");
+                showNotification("Informações enviadas com sucesso!", "success");
             })
             .finally(() => {
                 setLoading(false);
-                setFetchTransaction(true);
+                setIsFetchTransaction(true);
                 setFileToUpload("");
             })
-            .catch(() => {
-                showNotification("Erro ao enviar arquivo!", "error");
+            .catch((error) => {
+                if (error == 400) {
+                    showNotification("O arquivo é obrigatório!", "error");
+                }
+                if (error == 415) {
+                    showNotification("Extensão do arquivo invalida!", "error");
+                }
+                if (error == 422) {
+                    showNotification("A formatação do arquivo não é apropriada!", "error");
+                }
+                if (error == 500) {
+                    showNotification("Erro interno inesperado!", "error");
+                }
             });
     }
 
@@ -60,7 +76,7 @@ export function UploadFile() {
                             <label htmlFor="file">
                                 <img src={iconArrowUp} alt="Upload File" />
                                 Insira o arquivo de vendas aqui!
-                                <input type="file" name="file" id="file" onChange={handleFileInputChange} /* accept=".txt" */ />
+                                <input type="file" name="file" id="file" onChange={handleFileInputChange} />
                             </label>
 
                             {
