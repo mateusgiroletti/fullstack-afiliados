@@ -23,7 +23,7 @@ export class TransactionFileController {
             const data = fs.readFileSync(fileLocation, "utf8");
 
             if (!data) {
-                return res.status(400).json({ "msg": "File formatting is not appropriate!" });
+                return res.status(422).json({ "msg": "File formatting is not appropriate!" });
             }
 
             //Transform to array and remove empty values
