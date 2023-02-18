@@ -30,6 +30,66 @@ Run the migrates
 npx prisma migrate deploy
 ```
  
-Execute initial setups of prisma and run the migrations
+The application was available in
+
+```console
+http://localhost:3000/
+```
+
+## The available routes
+
+### Return Transactions 
+
+Route which returns an array of objects with information about the affiliate and a totalizer of the value of transactions carried out. 
+
+### Request
+Accept: application/json
+```console
+http://localhost:3000/transactions
+```
+
+### Response
+
+```javascript
+{
+  "total" : string,
+  "name_seller" : string,
+}
+```
+
+### Upload File
+
+Route for sending the txt file with information on transactions carried out by affiliates.
+Method used: POST.
+
+```console
+http://localhost:3000/upload
+```
+
+change {file location.txt} to the location of the file you want to test. (Recommend using the [sales.txt](https://github.com/mateusgiroletti/fullstack-afiliados/blob/main/salext.txt) file)
+
+```
+--form 'file=@"{file_location.txt}"'
+```
+
+### Response
+
+```javascript
+{
+    "msg": "Transactions inserted successfully"
+}
+```
+
+## Status Codes
+
+| Status Code | Description |
+| :--- | :--- |
+| 200 | `OK` |
+| 201 | `CREATED` |
+| 400 | `FILE IS REQUIRED!` |
+| 404 | `NOT FOUND` |
+| 415 | `FILE TYPE NOT ACCEPT` |
+| 422 | `FILE FORMATTING IS NOT APPROPRIATE!` |
+| 500 | `INTERNAL SERVER ERROR` |
 
 >  This is a challenge by [Coodesh](https://coodesh.com/)
