@@ -66,7 +66,7 @@ Method used: POST.
 http://localhost:3000/upload
 ```
 
-change {file location.txt} to the location of the file you want to test. (Recommend using the [sales.txt](thub.com/mateusgiroletti/fullstack-afiliados/blob/main/sales.txt) file)
+change {file location.txt} to the location of the file you want to test. (Recommend using the [sales.txt](https://github.com/mateusgiroletti/fullstack-afiliados/blob/main/sales.txt) file)
 
 ```
 --form 'file=@"{file_location.txt}"'
