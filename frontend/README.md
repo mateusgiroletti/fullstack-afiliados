@@ -4,7 +4,7 @@
 
 To use the application it is recommended to have docker installed, so it is not necessary to install the database and other utilities found in the docker-compose file.
 
-Clone this project on your favorite dir and change to backend dir:
+Clone this project on your favorite dir and change to frontend dir:
 
 ```console
 cd frontend
