@@ -12,6 +12,10 @@ cd backend
 
 Edit the .env.example file to .env and put the necessary environment variables.
 
+```console
+cp .env.example .env
+```
+
 Start the dockers containers.
 
 ```console
